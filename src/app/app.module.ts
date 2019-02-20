@@ -1,11 +1,21 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatCardModule, MatButtonModule, MatProgressSpinnerModule } from '@angular/material';
+import { MatCardModule, MatButtonModule, MatProgressSpinnerModule, MatRadioModule } from '@angular/material';
 import * as firebase from 'firebase';
+import { MainVewQuestionComponent } from './main-vew-question/main-vew-question.component';
+import { DataService } from 'src/services/data.service';
+
+const appRoutes: Routes = [
+  { path: 'start-survey/:id', component: MainVewQuestionComponent },
+];
+
+
 var config = {
   apiKey: "AIzaSyCMsiQRCVEa-qzxA-bnt-Jk5FXyOQgFrBw",
   authDomain: "sondaggio-ea6bf.firebaseapp.com",
@@ -18,7 +28,8 @@ firebase.initializeApp(config);
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MainVewQuestionComponent
   ],
   imports: [
     BrowserModule,
@@ -26,9 +37,12 @@ firebase.initializeApp(config);
     BrowserAnimationsModule,
     MatCardModule,
     MatButtonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    RouterModule.forRoot(appRoutes, {initialNavigation: false}),
+    FormsModule,
+    MatRadioModule
   ],
-  providers: [],
+  providers: [DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

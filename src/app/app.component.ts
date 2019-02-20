@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as firebase from 'firebase';
 import * as moment from 'moment';
+import { DataService } from 'src/services/data.service';
 
 @Component({
   selector: 'app-root',
@@ -12,8 +13,9 @@ export class AppComponent implements OnInit {
   pageSize:number = 10;
   isLoadingResults:boolean;
   collectionFB:string = 'surveys';
+  isAboutToStart:boolean = true;
 
-  constructor() { }
+  constructor(private data:DataService) { }
 
   ngOnInit() {
     this.isLoadingResults = true;
@@ -29,12 +31,13 @@ export class AppComponent implements OnInit {
       })
       this.isLoadingResults = false;
     }).catch((err)=>{
-      console.log(err);
+      //TODO
     })
   }
 
   onOpenSurvey(doc:any){
-    console.log(doc.id);
+    this.data.changeMessage(doc.id);
+    this.isAboutToStart = false;
   }
 
   ago(time){

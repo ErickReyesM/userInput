@@ -1,0 +1,15 @@
+<span>
+    <div>
+        <h1>{{ getQuestionNumber() }}.- &nbsp; {{ getQuestionText() }}</h1>
+      </div>
+      <div *ngIf="getQuestionOptions().length > 0">
+          <mat-radio-group class="radio-group" [(ngModel)]="optionSelected">
+              <mat-radio-button class="radio-button" *ngFor="let option of getQuestionOptions()" [value]="option">
+                {{option}}
+              </mat-radio-button>
+            </mat-radio-group>
+            <div class="selected-value">Option Selected is: {{optionSelected}}</div>        
+      </div>
+</span>
+<button mat-stroked-button (click)="nextQuestion()"
+[disabled]="getQuestionLenght() === (questionCount + 1)">Siguiente</button>
