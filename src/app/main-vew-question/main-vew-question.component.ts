@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as firebase from 'firebase';
 import { DataService } from 'src/services/data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-vew-question',
@@ -17,10 +18,10 @@ export class MainVewQuestionComponent implements OnInit {
   questionType:string = '';
   numberOfQuestion:number;
   optionsInQuestion:any[] = [];
-  optionSelected:string = '';
+  myColor:string = 'primary';
+  messageBtn:string = 'Siguiente';
 
-
-  constructor(private data:DataService) { }
+  constructor(private data:DataService, private router: Router) { }
 
   ngOnInit() {
     this.data.currentMessage.subscribe(message => { this.surveyId = message });
@@ -44,12 +45,20 @@ export class MainVewQuestionComponent implements OnInit {
     return this.questions[this.questionCount].numberOrd;
   }
 
-  getQuestionOptions():any[]{
+  getQuestionOptions():string[]{
     return this.questions[this.questionCount].options;
+  }
+
+  getInputType():string{
+    return this.questions[this.questionCount].type;
   }
 
   nextQuestion(){
     this.questionCount +=1;
+    if (this.getQuestionLenght() === (this.questionCount + 1)){
+      this.myColor = 'warn';
+      this.messageBtn = 'Terminar Encuesta'
+    }
   }
 
 }

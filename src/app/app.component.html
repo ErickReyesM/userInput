@@ -8,12 +8,12 @@
     </mat-card-header>
     <mat-card-content>
       <p>
-        Descripcion de la encuesta
+        {{ survey.data().surveyDescription }}
       </p>
     </mat-card-content>
     <mat-card-actions>
       <button mat-raised-button (click)="onOpenSurvey(survey)"
-      routerLink="/start-survey/{{survey.id}}"
+      routerLink="/start-survey"
        color="accent">Comenzar Encuesta</button>
     </mat-card-actions>
   </mat-card>

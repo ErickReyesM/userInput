@@ -6,13 +6,14 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatCardModule, MatButtonModule, MatProgressSpinnerModule, MatRadioModule } from '@angular/material';
+import { MatCardModule, MatButtonModule, MatProgressSpinnerModule, MatRadioModule 
+,MatCheckboxModule, MatIconModule, MatInputModule} from '@angular/material';
 import * as firebase from 'firebase';
 import { MainVewQuestionComponent } from './main-vew-question/main-vew-question.component';
 import { DataService } from 'src/services/data.service';
 
 const appRoutes: Routes = [
-  { path: 'start-survey/:id', component: MainVewQuestionComponent },
+  { path: 'start-survey', component: MainVewQuestionComponent },
 ];
 
 
@@ -38,9 +39,12 @@ firebase.initializeApp(config);
     MatCardModule,
     MatButtonModule,
     MatProgressSpinnerModule,
-    RouterModule.forRoot(appRoutes, {initialNavigation: false}),
+    RouterModule.forRoot(appRoutes),
     FormsModule,
-    MatRadioModule
+    MatRadioModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatInputModule
   ],
   providers: [DataService],
   bootstrap: [AppComponent]
