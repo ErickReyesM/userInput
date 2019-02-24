@@ -11,13 +11,20 @@ export class AppComponent implements OnInit {
 
   collection:string = 'surveys';
   surveyId:string = '';
-  exist:string = '';
+  exist:boolean = false;
+  existMessage:string = '';
+  questions: any[] = [];
+  questionCount:number = 0; 
+  myColor:string = 'primary';
+  messageBtn:string = 'Siguiente';
+  isLoadingResults:boolean;
 
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.isLoadingResults = true;
     this.route.queryParams.subscribe( async (param) => {
-      console.log( this.getDocFromFireStore(this.collection, param['id']));
+      this.getDocFromFireStore(this.collection, param['id']);
     });
   }
 
@@ -25,14 +32,44 @@ export class AppComponent implements OnInit {
     firebase.firestore().collection(collection).doc(docId).get()
     .then((doc)=>{
         if(doc.exists){
-          this.exist = "documento existente";
+          this.questions = doc.get('questions');
+          this.exist = true;
+          this.isLoadingResults = false;
         }else{
-          this.exist = "documento inexistente";
+          this.existMessage = "documento inexistente";
         }
       })
     .catch((err) =>{
       console.log('***'+err);
     });
+  }
+
+  getQuestionLenght():number{
+    return this.questions.length;
+  }
+
+  getQuestionText():string{
+    return this.questions[this.questionCount].questionTxt;
+  }
+
+  getQuestionNumber():number{
+    return this.questions[this.questionCount].numberOrd;
+  }
+
+  getQuestionOptions():string[]{
+    return this.questions[this.questionCount].options;
+  }
+
+  getInputType():string{
+    return this.questions[this.questionCount].type;
+  }
+
+  nextQuestion(){
+    this.questionCount +=1;
+    if (this.getQuestionLenght() === (this.questionCount + 1)){
+      this.myColor = 'warn';
+      this.messageBtn = 'Terminar Encuesta'
+    }
   }
 
 }
