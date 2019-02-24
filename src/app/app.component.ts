@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { copyStyles } from '@angular/animations/browser/src/util';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-root',
@@ -9,29 +9,30 @@ import { copyStyles } from '@angular/animations/browser/src/util';
 })
 export class AppComponent implements OnInit {
 
-  order: string;
-  constructor(private route: ActivatedRoute) { 
-    this.route.queryParams.subscribe(param => {
-      let id = param['id'];
-      console.log(id);
+  collection:string = 'surveys';
+  surveyId:string = '';
+  exist:string = '';
+
+  constructor(private route: ActivatedRoute) { }
+
+  ngOnInit() {
+    this.route.queryParams.subscribe( async (param) => {
+      console.log( this.getDocFromFireStore(this.collection, param['id']));
     });
   }
 
-  ngOnInit() {
-    
-  }
-/*
-  GetPost(){
-    this.surveysInDB = [];
-    firebase.firestore().collection(this.collectionFB).orderBy("created","desc").limit(this.pageSize).get()
-    .then((docs)=>{
-      docs.forEach((doc)=>{
-        this.surveysInDB.push(doc);
+  getDocFromFireStore(collection:string, docId:string){
+    firebase.firestore().collection(collection).doc(docId).get()
+    .then((doc)=>{
+        if(doc.exists){
+          this.exist = "documento existente";
+        }else{
+          this.exist = "documento inexistente";
+        }
       })
-      this.isLoadingResults = false;
-    }).catch((err)=>{
-      //TODO
-    })
-  }*/
+    .catch((err) =>{
+      console.log('***'+err);
+    });
+  }
 
 }
