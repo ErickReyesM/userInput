@@ -9,13 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule, MatButtonModule, MatProgressSpinnerModule, MatRadioModule 
 ,MatCheckboxModule, MatIconModule, MatInputModule} from '@angular/material';
 import * as firebase from 'firebase';
-import { MainVewQuestionComponent } from './main-vew-question/main-vew-question.component';
 import { DataService } from 'src/services/data.service';
-
-const appRoutes: Routes = [
-  { path: 'start-survey', component: MainVewQuestionComponent },
-];
-
 
 var config = {
   apiKey: "AIzaSyCMsiQRCVEa-qzxA-bnt-Jk5FXyOQgFrBw",
@@ -30,7 +24,6 @@ firebase.initializeApp(config);
 @NgModule({
   declarations: [
     AppComponent,
-    MainVewQuestionComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +32,10 @@ firebase.initializeApp(config);
     MatCardModule,
     MatButtonModule,
     MatProgressSpinnerModule,
-    RouterModule.forRoot(appRoutes),
+    RouterModule.forRoot([{
+      path: '',
+      component: AppComponent
+    },]),
     FormsModule,
     MatRadioModule,
     MatCheckboxModule,

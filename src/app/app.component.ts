@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import * as firebase from 'firebase';
-import * as moment from 'moment';
-import { DataService } from 'src/services/data.service';
+import { ActivatedRoute } from '@angular/router';
+import { copyStyles } from '@angular/animations/browser/src/util';
 
 @Component({
   selector: 'app-root',
@@ -9,19 +8,19 @@ import { DataService } from 'src/services/data.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  surveysInDB: any[] = [];
-  pageSize:number = 10;
-  isLoadingResults:boolean;
-  collectionFB:string = 'surveys';
-  isAboutToStart:boolean = true;
 
-  constructor(private data:DataService) { }
-
-  ngOnInit() {
-    this.isLoadingResults = true;
-    this.GetPost();
+  order: string;
+  constructor(private route: ActivatedRoute) { 
+    this.route.queryParams.subscribe(param => {
+      let id = param['id'];
+      console.log(id);
+    });
   }
 
+  ngOnInit() {
+    
+  }
+/*
   GetPost(){
     this.surveysInDB = [];
     firebase.firestore().collection(this.collectionFB).orderBy("created","desc").limit(this.pageSize).get()
@@ -33,16 +32,6 @@ export class AppComponent implements OnInit {
     }).catch((err)=>{
       //TODO
     })
-  }
+  }*/
 
-  onOpenSurvey(doc:any){
-    this.data.changeMessage(doc.id);
-    this.isAboutToStart = false;
-  }
-
-  ago(time){
-    moment.locale("es-us")
-    let difference = moment(time).diff(moment());
-    return moment.duration(difference).humanize();
-  }
 }

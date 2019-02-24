@@ -1,23 +1,9 @@
+<!--<div *ngFor="let question of surveysInDB.data().questions">
+    <p>{{question.numberOrd}}</p>
+    <p>{{question.questionTxt}}</p> 
+    <p>{{question.type}}</p>
+    <p>{{question.type === 'Elección' || question.type === 'Opción Multitple' ?
+      question.options.length : '-'}}</p>
+</div>-->
 
-<router-outlet></router-outlet>
-<div *ngIf="isAboutToStart">
-<mat-card *ngFor="let survey of surveysInDB" class="mat-card">
-    <mat-card-header>
-      <mat-card-title>{{ survey.data().surveyTitle }}</mat-card-title>
-      <mat-card-subtitle>Creada hace: {{ ago(survey.data().created.toDate()) }}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <p>
-        {{ survey.data().surveyDescription }}
-      </p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button (click)="onOpenSurvey(survey)"
-      routerLink="/start-survey"
-       color="accent">Comenzar Encuesta</button>
-    </mat-card-actions>
-  </mat-card>
-  <div class="loading-shade" *ngIf="isLoadingResults">
-    <mat-spinner mode="indeterminate" color="accent"></mat-spinner>
-  </div>
-</div>
+External component
