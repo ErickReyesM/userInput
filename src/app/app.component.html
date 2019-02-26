@@ -1,17 +1,26 @@
+<!--Spining loader-->
 <div class="loading-shade" *ngIf="isLoadingResults">
     <mat-spinner mode="indeterminate"></mat-spinner>
 </div>
 <span *ngIf="exist" class="question-orientation">
   <div>
+    <!--Question Number & Text-->
       <h1>{{ getQuestionNumber() }}.- &nbsp; {{ getQuestionText() }}</h1>
     </div>
+    <!--Radio Select-->
     <div *ngIf="getQuestionOptions().length > 0 && getInputType() === 'Elección'">
         <mat-radio-group class="radio-group" [(ngModel)]="optionSelected">
             <mat-radio-button class="radio-button" *ngFor="let option of getQuestionOptions()" [value]="option">
               {{option}}
             </mat-radio-button>
-          </mat-radio-group>    
+          </mat-radio-group>   
+          <div class="action-button" *ngIf="questionCount <= getQuestionLenght() - 1">
+              <button mat-stroked-button
+              (click)="nextQuestion(optionSelected, getInputType())"
+              [color]="myColor">{{messageBtn}}</button>
+          </div> 
     </div>
+    <!--Checkbox for Mutiple Option-->
     <div *ngIf="getQuestionOptions().length > 0 && getInputType() === 'Opción Multitple'">
           <mat-checkbox *ngIf="getQuestionOptions()[0]" 
           [(ngModel)]="a">{{getQuestionOptions()[0]}}</mat-checkbox><br>
@@ -25,42 +34,49 @@
            [(ngModel)]="e">{{getQuestionOptions()[4]}}</mat-checkbox><br>
           <mat-checkbox *ngIf="getQuestionOptions()[5]"
            [(ngModel)]="f">{{getQuestionOptions()[5]}}</mat-checkbox><br>
+           <div class="action-button" *ngIf="questionCount <= getQuestionLenght() - 1">
+              <button mat-stroked-button 
+              (click)="nextQuestionWithMultiple(a,b,c,d,e,f, getInputType())"
+              [color]="myColor">{{messageBtn}}</button>
+          </div> 
     </div>
+    <!--Satisfaction Input-->
     <div *ngIf="getInputType() === 'Satisfacción'">
       <table class="question-orientation">
         <tr>
           <td>
-              <button mat-icon-button (click)="nextQuestion()">
+              <button mat-icon-button (click)="nextQuestion('1',getInputType())">
                   <mat-icon class="satisfaction-Icon" style="color: red">sentiment_very_dissatisfied</mat-icon>
                 </button>
           </td>
           <td>
-              <button class="button-contaner" mat-icon-button (click)="nextQuestion()">
+              <button class="button-contaner" mat-icon-button (click)="nextQuestion('2',getInputType())">
                   <mat-icon class="satisfaction-Icon" style="color: orange">sentiment_dissatisfied</mat-icon>
                 </button>
           </td>
           <td>
-              <button lass="button-contaner" mat-icon-button (click)="nextQuestion()">
+              <button lass="button-contaner" mat-icon-button (click)="nextQuestion('3',getInputType())">
                   <mat-icon class="satisfaction-Icon" style="color: yellow">sentiment_satisfied</mat-icon>
                 </button>
           </td>
           <td>
-              <button lass="button-contaner" mat-icon-button (click)="nextQuestion()">
+              <button lass="button-contaner" mat-icon-button (click)="nextQuestion('4',getInputType())">
                   <mat-icon class="satisfaction-Icon" style="color: green">mood</mat-icon>
                 </button>
           </td>
         </tr>
       </table>
     </div>
+    <!--Open Text Area-->
     <div *ngIf="getInputType() === 'Abierta'">
         <mat-form-field>
-            <textarea matInput placeholder="Deja un comentario"></textarea>
+            <textarea matInput #textArea placeholder="Deja un comentario"></textarea>
           </mat-form-field>
+          <div class="action-button" *ngIf="questionCount <= getQuestionLenght() - 1">
+              <button mat-stroked-button 
+              (click)="nextQuestion(textArea.value, getInputType())"
+              [color]="myColor">{{messageBtn}}</button>
+          </div>
     </div>
-    <div class="action-button">
-        <button mat-stroked-button (click)="nextQuestion()" *ngIf="getInputType() != 'Satisfacción'"
-        [color]="myColor">{{messageBtn}}</button>
-      </div>
 </span>
-
 <h1 *ngIf="!exist">{{existMessage}}</h1>

@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
   myColor:string = 'primary';
   messageBtn:string = 'Siguiente';
   isLoadingResults:boolean;
+  optionSelected:string = '';
 
   constructor(private route: ActivatedRoute) { }
 
@@ -35,8 +36,10 @@ export class AppComponent implements OnInit {
           this.questions = doc.get('questions');
           this.exist = true;
           this.isLoadingResults = false;
+          this.surveyId = docId;
         }else{
           this.existMessage = "documento inexistente";
+          this.isLoadingResults = false;
         }
       })
     .catch((err) =>{
@@ -64,12 +67,44 @@ export class AppComponent implements OnInit {
     return this.questions[this.questionCount].type;
   }
 
-  nextQuestion(){
+  nextQuestion(value:string, type:string){
+    console.log(value, type);
     this.questionCount +=1;
-    if (this.getQuestionLenght() === (this.questionCount + 1)){
+    if (this.questionCount + 1 == this.getQuestionLenght()){
       this.myColor = 'warn';
       this.messageBtn = 'Terminar Encuesta'
+      this.onFinishSurvey();
     }
   }
 
+  nextQuestionWithMultiple(a:boolean,b:boolean,c:boolean,d:boolean,e:boolean,f:boolean,type:string){
+    let optionsInSurvey = this.getQuestionOptions();
+    let options = [];
+    if(a)
+      options.push(optionsInSurvey[0]);
+    if(b)
+      options.push(optionsInSurvey[1]);
+    if(c)
+      options.push(optionsInSurvey[2]);
+    if(d)
+      options.push(optionsInSurvey[3]);
+    if(e)
+      options.push(optionsInSurvey[4]);
+    if(f)
+      options.push(optionsInSurvey[5]);
+    options.filter(el => {
+      return el != '';
+    });
+    this.questionCount +=1;
+    if (this.questionCount + 1 == this.getQuestionLenght()){
+      this.myColor = 'warn';
+      this.messageBtn = 'Terminar Encuesta'
+      this.onFinishSurvey();
+    }
+    console.log(options, type);
+  }
+
+  onFinishSurvey(){
+    console.log('***Encuesta Terminada***')
+  }
 }
