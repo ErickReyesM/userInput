@@ -43,7 +43,7 @@ export class AppComponent implements OnInit {
         }
       })
     .catch((err) =>{
-      console.log('***'+err);
+      //TODO
     });
   }
 
@@ -67,17 +67,17 @@ export class AppComponent implements OnInit {
     return this.questions[this.questionCount].type;
   }
 
-  nextQuestion(value:string, type:string){
+ async nextQuestion(value:string, type:string){
     console.log(value, type);
     this.questionCount +=1;
     if (this.questionCount + 1 == this.getQuestionLenght()){
       this.myColor = 'warn';
       this.messageBtn = 'Terminar Encuesta'
-      this.onFinishSurvey();
+      await this.onFinishSurvey();
     }
   }
 
-  nextQuestionWithMultiple(a:boolean,b:boolean,c:boolean,d:boolean,e:boolean,f:boolean,type:string){
+  async nextQuestionWithMultiple(a:boolean,b:boolean,c:boolean,d:boolean,e:boolean,f:boolean,type:string){
     let optionsInSurvey = this.getQuestionOptions();
     let options = [];
     if(a)
@@ -99,7 +99,7 @@ export class AppComponent implements OnInit {
     if (this.questionCount + 1 == this.getQuestionLenght()){
       this.myColor = 'warn';
       this.messageBtn = 'Terminar Encuesta'
-      this.onFinishSurvey();
+      await this.onFinishSurvey();
     }
     console.log(options, type);
   }

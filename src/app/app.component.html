@@ -8,20 +8,20 @@
       <h1>{{ getQuestionNumber() }}.- &nbsp; {{ getQuestionText() }}</h1>
     </div>
     <!--Radio Select-->
-    <div *ngIf="getQuestionOptions().length > 0 && getInputType() === 'Elección'">
-        <mat-radio-group class="radio-group" [(ngModel)]="optionSelected">
-            <mat-radio-button class="radio-button" *ngFor="let option of getQuestionOptions()" [value]="option">
+    <div *ngIf="getQuestionOptions().length > 0 && getInputType() === 'Elección'"  style="font-size: 150%">
+        <mat-radio-group class="radio-group" 
+        [(ngModel)]="optionSelected">
+            <mat-radio-button class="radio-button" 
+            *ngFor="let option of getQuestionOptions()" 
+            [value]="option"
+            (change)="nextQuestion(option, getInputType())">
               {{option}}
             </mat-radio-button>
           </mat-radio-group>   
-          <div class="action-button" *ngIf="questionCount <= getQuestionLenght() - 1">
-              <button mat-stroked-button
-              (click)="nextQuestion(optionSelected, getInputType())"
-              [color]="myColor">{{messageBtn}}</button>
-          </div> 
     </div>
     <!--Checkbox for Mutiple Option-->
-    <div *ngIf="getQuestionOptions().length > 0 && getInputType() === 'Opción Multitple'">
+    <div *ngIf="getQuestionOptions().length > 0 && getInputType() === 'Opción Multitple'" 
+      style="font-size: 150%">
           <mat-checkbox *ngIf="getQuestionOptions()[0]" 
           [(ngModel)]="a">{{getQuestionOptions()[0]}}</mat-checkbox><br>
           <mat-checkbox *ngIf="getQuestionOptions()[1]"
@@ -35,14 +35,14 @@
           <mat-checkbox *ngIf="getQuestionOptions()[5]"
            [(ngModel)]="f">{{getQuestionOptions()[5]}}</mat-checkbox><br>
            <div class="action-button" *ngIf="questionCount <= getQuestionLenght() - 1">
-              <button mat-stroked-button 
+              <button mat-stroked-button style="font-size: 85%"
               (click)="nextQuestionWithMultiple(a,b,c,d,e,f, getInputType())"
               [color]="myColor">{{messageBtn}}</button>
           </div> 
     </div>
     <!--Satisfaction Input-->
     <div *ngIf="getInputType() === 'Satisfacción'">
-      <table class="question-orientation">
+      <table>
         <tr>
           <td>
               <button mat-icon-button (click)="nextQuestion('1',getInputType())">
@@ -50,17 +50,17 @@
                 </button>
           </td>
           <td>
-              <button class="button-contaner" mat-icon-button (click)="nextQuestion('2',getInputType())">
+              <button mat-icon-button (click)="nextQuestion('2',getInputType())">
                   <mat-icon class="satisfaction-Icon" style="color: orange">sentiment_dissatisfied</mat-icon>
                 </button>
           </td>
           <td>
-              <button lass="button-contaner" mat-icon-button (click)="nextQuestion('3',getInputType())">
+              <button mat-icon-button (click)="nextQuestion('3',getInputType())">
                   <mat-icon class="satisfaction-Icon" style="color: yellow">sentiment_satisfied</mat-icon>
                 </button>
           </td>
           <td>
-              <button lass="button-contaner" mat-icon-button (click)="nextQuestion('4',getInputType())">
+              <button mat-icon-button (click)="nextQuestion('4',getInputType())">
                   <mat-icon class="satisfaction-Icon" style="color: green">mood</mat-icon>
                 </button>
           </td>
@@ -69,11 +69,11 @@
     </div>
     <!--Open Text Area-->
     <div *ngIf="getInputType() === 'Abierta'">
-        <mat-form-field>
+        <mat-form-field class="open-text-area">
             <textarea matInput #textArea placeholder="Deja un comentario"></textarea>
           </mat-form-field>
           <div class="action-button" *ngIf="questionCount <= getQuestionLenght() - 1">
-              <button mat-stroked-button 
+              <button mat-stroked-button style="font-size: 85%"
               (click)="nextQuestion(textArea.value, getInputType())"
               [color]="myColor">{{messageBtn}}</button>
           </div>
