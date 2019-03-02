@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as firebase from 'firebase';
 
+export interface SurveyInput{
+  type: string,
+  value?: string,
+  options?: any[]
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -19,6 +25,8 @@ export class AppComponent implements OnInit {
   messageBtn:string = 'Siguiente';
   isLoadingResults:boolean;
   optionSelected:string = '';
+  surveyInputObject:{surveyID:string, input:SurveyInput[] };
+  surveyUserInput:SurveyInput[] = [];
 
   constructor(private route: ActivatedRoute) { }
 
@@ -67,17 +75,19 @@ export class AppComponent implements OnInit {
     return this.questions[this.questionCount].type;
   }
 
- async nextQuestion(value:string, type:string){
+  nextQuestion(value:string, type:string){
     console.log(value, type);
-    this.questionCount +=1;
+    let input:SurveyInput = { type: type, value: value, };
+    this.surveyUserInput.push(input);
     if (this.questionCount + 1 == this.getQuestionLenght()){
       this.myColor = 'warn';
       this.messageBtn = 'Terminar Encuesta'
-      await this.onFinishSurvey();
+      this.onFinishSurvey();
     }
+    this.questionCount +=1;
   }
 
-  async nextQuestionWithMultiple(a:boolean,b:boolean,c:boolean,d:boolean,e:boolean,f:boolean,type:string){
+  nextQuestionWithMultiple(a:boolean,b:boolean,c:boolean,d:boolean,e:boolean,f:boolean,type:string){
     let optionsInSurvey = this.getQuestionOptions();
     let options = [];
     if(a)
@@ -95,16 +105,22 @@ export class AppComponent implements OnInit {
     options.filter(el => {
       return el != '';
     });
-    this.questionCount +=1;
+    console.log(options, type);
+    let input:SurveyInput = { type: type, options: options };
+    this.surveyUserInput.push(input);
     if (this.questionCount + 1 == this.getQuestionLenght()){
       this.myColor = 'warn';
       this.messageBtn = 'Terminar Encuesta'
-      await this.onFinishSurvey();
+      this.onFinishSurvey();
     }
-    console.log(options, type);
+    this.questionCount +=1;
   }
 
   onFinishSurvey(){
-    console.log('***Encuesta Terminada***')
+    this.surveyInputObject = {
+      surveyID: this.surveyId,
+      input: this.surveyUserInput
+    }
+    console.log(this.surveyInputObject);
   }
 }
