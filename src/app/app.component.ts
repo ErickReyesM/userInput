@@ -25,8 +25,9 @@ export class AppComponent implements OnInit {
   messageBtn:string = 'Siguiente';
   isLoadingResults:boolean;
   optionSelected:string = '';
-  surveyInputObject:{surveyID:string, input:SurveyInput[] };
+  surveyInputObject:{surveyID:string, input:SurveyInput[], created:any };
   surveyUserInput:SurveyInput[] = [];
+  inputCollection:string = 'userInput';
 
   constructor(private route: ActivatedRoute) { }
 
@@ -119,8 +120,16 @@ export class AppComponent implements OnInit {
   onFinishSurvey(){
     this.surveyInputObject = {
       surveyID: this.surveyId,
-      input: this.surveyUserInput
+      input: this.surveyUserInput,
+      created: firebase.firestore.FieldValue.serverTimestamp()
     }
-    console.log(this.surveyInputObject);
+    firebase.firestore().collection(this.inputCollection).add(this.surveyInputObject)
+    .then((doc)=>{
+      console.log('documento en FB' + doc.id);
+      window.location.reload();
+    })
+    .catch((err)=>{
+      //TODO
+    })
   }
 }
