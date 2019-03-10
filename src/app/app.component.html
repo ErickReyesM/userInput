@@ -2,6 +2,11 @@
 <div class="loading-shade" *ngIf="isLoadingResults">
     <mat-spinner mode="indeterminate"></mat-spinner>
 </div>
+
+<div style="text-align: right">
+    <countdown [config]="config" (finished)="onFinished()">$!m!:$!s!</countdown>
+</div>
+
 <span *ngIf="exist" class="question-orientation">
   <div>
     <!--Question Number & Text-->

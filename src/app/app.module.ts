@@ -10,6 +10,7 @@ import { MatCardModule, MatButtonModule, MatProgressSpinnerModule, MatRadioModul
 ,MatCheckboxModule, MatIconModule, MatInputModule} from '@angular/material';
 import * as firebase from 'firebase';
 import { DataService } from 'src/services/data.service';
+import { CountdownModule } from 'ngx-countdown';
 
 var config = {
   apiKey: "AIzaSyCMsiQRCVEa-qzxA-bnt-Jk5FXyOQgFrBw",
@@ -40,7 +41,8 @@ firebase.initializeApp(config);
     MatRadioModule,
     MatCheckboxModule,
     MatIconModule,
-    MatInputModule
+    MatInputModule,
+    CountdownModule
   ],
   providers: [DataService],
   bootstrap: [AppComponent]

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as firebase from 'firebase';
+import { CountdownComponent } from 'ngx-countdown';
 
 export interface SurveyInput{
   type: string,
@@ -15,6 +16,8 @@ export interface SurveyInput{
 })
 export class AppComponent implements OnInit {
 
+  @ViewChild(CountdownComponent) counter: CountdownComponent;
+
   collection:string = 'surveys';
   surveyId:string = '';
   exist:boolean = false;
@@ -28,6 +31,7 @@ export class AppComponent implements OnInit {
   surveyInputObject:{surveyID:string, input:SurveyInput[], created:any };
   surveyUserInput:SurveyInput[] = [];
   inputCollection:string = 'userInput';
+  config = {leftTime: 120}
 
   constructor(private route: ActivatedRoute) { }
 
@@ -46,9 +50,11 @@ export class AppComponent implements OnInit {
           this.exist = true;
           this.isLoadingResults = false;
           this.surveyId = docId;
+          this.counter.pause();
         }else{
           this.existMessage = "documento inexistente";
           this.isLoadingResults = false;
+          this.counter.pause();
         }
       })
     .catch((err) =>{
@@ -77,7 +83,6 @@ export class AppComponent implements OnInit {
   }
 
   nextQuestion(value:string, type:string){
-    console.log(value, type);
     let input:SurveyInput = { type: type, value: value, };
     this.surveyUserInput.push(input);
     if (this.questionCount + 1 == this.getQuestionLenght()){
@@ -86,6 +91,7 @@ export class AppComponent implements OnInit {
       this.onFinishSurvey();
     }
     this.questionCount +=1;
+    this.counter.restart();
   }
 
   nextQuestionWithMultiple(a:boolean,b:boolean,c:boolean,d:boolean,e:boolean,f:boolean,type:string){
@@ -106,7 +112,6 @@ export class AppComponent implements OnInit {
     options.filter(el => {
       return el != '';
     });
-    console.log(options, type);
     let input:SurveyInput = { type: type, options: options };
     this.surveyUserInput.push(input);
     if (this.questionCount + 1 == this.getQuestionLenght()){
@@ -115,6 +120,7 @@ export class AppComponent implements OnInit {
       this.onFinishSurvey();
     }
     this.questionCount +=1;
+    this.counter.restart();
   }
 
   onFinishSurvey(){
@@ -125,11 +131,15 @@ export class AppComponent implements OnInit {
     }
     firebase.firestore().collection(this.inputCollection).add(this.surveyInputObject)
     .then((doc)=>{
-      console.log('documento en FB' + doc.id);
       window.location.reload();
     })
     .catch((err)=>{
       //TODO
     })
   }
+
+  onFinished(){
+    window.location.reload();
+  }
+
 }
