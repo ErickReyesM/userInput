@@ -131,7 +131,7 @@ export class AppComponent implements OnInit {
     }
     firebase.firestore().collection(this.inputCollection).add(this.surveyInputObject)
     .then((doc)=>{
-      window.location.reload();
+      window.location.assign('https://sondaggio-user.firebaseapp.com/?id='+this.surveyId);
     })
     .catch((err)=>{
       //TODO
