@@ -139,7 +139,7 @@ export class AppComponent implements OnInit {
   }
 
   onFinished(){
-    window.location.reload();
+    window.location.assign('https://sondaggio-user.firebaseapp.com/?id='+this.surveyId);
   }
 
 }
