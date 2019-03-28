@@ -47,42 +47,18 @@
     </div>
     <!--Satisfaction Input-->
     <div *ngIf="getInputType() === 'Satisfacción'">
-      <!--<table>
-        <tr>
-          <td>
-              <button mat-icon-button (click)="nextQuestion('1',getInputType())">
-                  <mat-icon class="satisfaction-Icon" style="color: red">sentiment_very_dissatisfied</mat-icon>
-                </button>
-          </td>
-          <td>
-              <button mat-icon-button (click)="nextQuestion('2',getInputType())">
-                  <mat-icon class="satisfaction-Icon" style="color: orange">sentiment_dissatisfied</mat-icon>
-                </button>
-          </td>
-          <td>
-              <button mat-icon-button (click)="nextQuestion('3',getInputType())">
-                  <mat-icon class="satisfaction-Icon" style="color: yellow">sentiment_satisfied</mat-icon>
-                </button>
-          </td>
-          <td>
-              <button mat-icon-button (click)="nextQuestion('4',getInputType())">
-                  <mat-icon class="satisfaction-Icon" style="color: green">mood</mat-icon>
-                </button>
-          </td>
-        </tr>
-      </table>-->
-      <button (click)="nextQuestion('1',getInputType())">
-        <img ng-src="assets/satisfaction_icons/worse.png" alt="Muy Malo" class="responsive">
-      </button>
-      <button (click)="nextQuestion('2',getInputType())">
-        <img ng-src="assets/satisfaction_icons/bad.png" alt="Malo" class="responsive">
-      </button>
-      <button (click)="nextQuestion('3',getInputType())">
-        <img ng-src="assets/satisfaction_icons/ok.png" alt="Bueno" class="responsive">
-      </button>
-      <button (click)="nextQuestion('4',getInputType())">
-        <img ng-src="assets/satisfaction_icons/great.png" alt="Excelente" class="responsive">
-      </button>
+      <a (click)="nextQuestion('1',getInputType())" class="button-satisfaction">
+        <img src="assets/satisfaction_icons/worse.png" alt="Muy Malo" class="responsive">
+      </a>
+      <a (click)="nextQuestion('2',getInputType())" class="button-satisfaction">
+        <img src="assets/satisfaction_icons/bad.png" alt="Malo" class="responsive">
+      </a>
+      <a (click)="nextQuestion('3',getInputType())" class="button-satisfaction">
+        <img src="assets/satisfaction_icons/ok.png" alt="Bueno" class="responsive">
+      </a>
+      <a (click)="nextQuestion('4',getInputType())" class="button-satisfaction">
+        <img src="assets/satisfaction_icons/great.png" alt="Excelente" class="responsive">
+      </a>
     </div>
     <!--Open Text Area-->
     <div *ngIf="getInputType() === 'Abierta'">
