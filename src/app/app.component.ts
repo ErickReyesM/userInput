@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
   myColor:string = 'primary';
   messageBtn:string = 'Siguiente';
   isLoadingResults:boolean;
-  optionSelected:string = '';
+  options:Array<any> = [];
   surveyInputObject:{surveyID:string, input:SurveyInput[], created:any };
   surveyUserInput:SurveyInput[] = [];
   inputCollection:string = 'userInput';
@@ -99,25 +99,33 @@ export class AppComponent implements OnInit {
 
   nextQuestionWithMultiple(a:boolean,b:boolean,c:boolean,d:boolean,e:boolean,f:boolean,type:string, qNumber: number){
     let optionsInSurvey = this.getQuestionOptions();
-    let options = [];
     let input:SurveyInput;
-    if(a) { options.push(optionsInSurvey[0]); }
-    if(b) { options.push(optionsInSurvey[1]); }
-    if(c) { options.push(optionsInSurvey[2]); }
-    if(d) { options.push(optionsInSurvey[3]); }
-    if(e) { options.push(optionsInSurvey[4]); }
-    if(f) { options.push(optionsInSurvey[5]); }
+    if(a) { this.options.push(optionsInSurvey[0]); }
+    if(b) { this.options.push(optionsInSurvey[1]); }
+    if(c) { this.options.push(optionsInSurvey[2]); }
+    if(d) { this.options.push(optionsInSurvey[3]); }
+    if(e) { this.options.push(optionsInSurvey[4]); }
+    if(f) { this.options.push(optionsInSurvey[5]); }
 
-    options = options.filter(el => {
+    this.options = this.options.filter(el => {
       return el != undefined;
     });
 
-    input = { type: type, options: options };
+    input = { type: type, options: this.options };
 
     this.surveyUserInput.push(input);
 
     this.questionCount +=1;
     this.counter.restart();
+
+    optionsInSurvey = [];
+    this.options = [];
+    a = false;
+    b = false;
+    c = false;
+    d = false;
+    e = false;
+    f = false;
 
     if(qNumber == this.getQuestionLenght()-1){
       this.messageBtn = 'Terminar Encuesta';
@@ -126,14 +134,6 @@ export class AppComponent implements OnInit {
     if(qNumber == this.getQuestionLenght()){
       this.onFinishSurvey();
     }
-    optionsInSurvey = [];
-    options = [];
-    a = false;
-    b = false;
-    c = false;
-    d = false;
-    e = false;
-    f = false;
   }
 
   onFinishSurvey(){
