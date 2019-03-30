@@ -145,7 +145,7 @@ export class AppComponent implements OnInit {
     firebase.firestore().collection(this.inputCollection).add(this.surveyInputObject)
     .then((doc)=>{
       this.surveyUserInput = [];
-      window.location.assign('https://sondaggio-user.firebaseapp.com/?id='+this.surveyId);
+      window.location.assign('https://sondaggio-input-user.firebaseapp.com/?id='+this.surveyId);
     })
     .catch((err)=>{
       //TODO
@@ -153,7 +153,7 @@ export class AppComponent implements OnInit {
   }
 
   onFinished(){
-    window.location.assign('https://sondaggio-user.firebaseapp.com/?id='+this.surveyId);
+    window.location.assign('https://sondaggio-input-user.firebaseapp.com/?id='+this.surveyId);
   }
 
 }
