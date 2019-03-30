@@ -82,45 +82,52 @@ export class AppComponent implements OnInit {
     return this.questions[this.questionCount].type;
   }
 
-  nextQuestion(value:string, type:string){
+  nextQuestion(value:string, type:string, qNumber: number){
     let input:SurveyInput = { type: type, value: value, };
     this.surveyUserInput.push(input);
-    if (this.questionCount + 1 == this.getQuestionLenght()){
-      this.myColor = 'warn';
-      this.messageBtn = 'Terminar Encuesta'
-      this.onFinishSurvey();
-    }
     this.questionCount +=1;
     this.counter.restart();
+
+    if(qNumber == this.getQuestionLenght()-1){
+      this.messageBtn = 'Terminar Encuesta';
+      this.myColor = 'warn';
+    }
+    if(qNumber == this.getQuestionLenght()){
+      this.onFinishSurvey();
+    }
   }
 
-  nextQuestionWithMultiple(a:boolean,b:boolean,c:boolean,d:boolean,e:boolean,f:boolean,type:string){
+  nextQuestionWithMultiple(a:boolean,b:boolean,c:boolean,d:boolean,e:boolean,f:boolean,type:string, qNumber: number){
     let optionsInSurvey = this.getQuestionOptions();
     let options = [];
-    if(a)
-      options.push(optionsInSurvey[0]);
-    if(b)
-      options.push(optionsInSurvey[1]);
-    if(c)
-      options.push(optionsInSurvey[2]);
-    if(d)
-      options.push(optionsInSurvey[3]);
-    if(e)
-      options.push(optionsInSurvey[4]);
-    if(f)
-      options.push(optionsInSurvey[5]);
-    options.filter(el => {
-      return el != '';
+    let input:SurveyInput;
+    if(a) { options.push(optionsInSurvey[0]); }
+    if(b) { options.push(optionsInSurvey[1]); }
+    if(c) { options.push(optionsInSurvey[2]); }
+    if(d) { options.push(optionsInSurvey[3]); }
+    if(e) { options.push(optionsInSurvey[4]); }
+    if(f) { options.push(optionsInSurvey[5]); }
+
+    options = options.filter(el => {
+      return el != undefined;
     });
-    let input:SurveyInput = { type: type, options: options };
+
+    input = { type: type, options: options };
+
     this.surveyUserInput.push(input);
-    if (this.questionCount + 1 == this.getQuestionLenght()){
-      this.myColor = 'warn';
-      this.messageBtn = 'Terminar Encuesta'
-      this.onFinishSurvey();
-    }
+
     this.questionCount +=1;
     this.counter.restart();
+
+    if(qNumber == this.getQuestionLenght()-1){
+      this.messageBtn = 'Terminar Encuesta';
+      this.myColor = 'warn';
+    }
+    if(qNumber == this.getQuestionLenght()){
+      this.onFinishSurvey();
+    }
+    optionsInSurvey = [];
+    options = [];
   }
 
   onFinishSurvey(){
@@ -131,6 +138,7 @@ export class AppComponent implements OnInit {
     }
     firebase.firestore().collection(this.inputCollection).add(this.surveyInputObject)
     .then((doc)=>{
+      this.surveyUserInput = [];
       window.location.assign('https://sondaggio-user.firebaseapp.com/?id='+this.surveyId);
     })
     .catch((err)=>{

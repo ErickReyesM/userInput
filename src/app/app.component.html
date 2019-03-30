@@ -19,7 +19,7 @@
             <mat-radio-button class="radio-button" 
             *ngFor="let option of getQuestionOptions()" 
             [value]="option"
-            (change)="nextQuestion(option, getInputType())">
+            (change)="nextQuestion(option, getInputType(), getQuestionNumber())">
               {{option}}
             </mat-radio-button>
           </mat-radio-group>   
@@ -41,22 +41,22 @@
            [(ngModel)]="f">{{getQuestionOptions()[5]}}</mat-checkbox><br>
            <div class="action-button" *ngIf="questionCount <= getQuestionLenght() - 1">
               <button mat-stroked-button style="font-size: 85%"
-              (click)="nextQuestionWithMultiple(a,b,c,d,e,f, getInputType())"
+              (click)="nextQuestionWithMultiple(a,b,c,d,e,f, getInputType(), getQuestionNumber())"
               [color]="myColor">{{messageBtn}}</button>
           </div> 
     </div>
     <!--Satisfaction Input-->
     <div *ngIf="getInputType() === 'Satisfacción'">
-      <a (click)="nextQuestion('1',getInputType())" class="button-satisfaction">
+      <a (click)="nextQuestion('1',getInputType(), getQuestionNumber())" class="button-satisfaction">
         <img src="assets/satisfaction_icons/worse.png" alt="Muy Malo" class="responsive">
       </a>
-      <a (click)="nextQuestion('2',getInputType())" class="button-satisfaction">
+      <a (click)="nextQuestion('2',getInputType(), getQuestionNumber())" class="button-satisfaction">
         <img src="assets/satisfaction_icons/bad.png" alt="Malo" class="responsive">
       </a>
-      <a (click)="nextQuestion('3',getInputType())" class="button-satisfaction">
+      <a (click)="nextQuestion('3',getInputType(), getQuestionNumber())" class="button-satisfaction">
         <img src="assets/satisfaction_icons/ok.png" alt="Bueno" class="responsive">
       </a>
-      <a (click)="nextQuestion('4',getInputType())" class="button-satisfaction">
+      <a (click)="nextQuestion('4',getInputType(), getQuestionNumber())" class="button-satisfaction">
         <img src="assets/satisfaction_icons/great.png" alt="Excelente" class="responsive">
       </a>
     </div>
@@ -67,7 +67,7 @@
           </mat-form-field>
           <div class="action-button" *ngIf="questionCount <= getQuestionLenght() - 1">
               <button mat-stroked-button style="font-size: 85%"
-              (click)="nextQuestion(textArea.value, getInputType())"
+              (click)="nextQuestion(textArea.value, getInputType(), getQuestionNumber())"
               [color]="myColor">{{messageBtn}}</button>
           </div>
     </div>
