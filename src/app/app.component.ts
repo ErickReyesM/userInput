@@ -32,6 +32,12 @@ export class AppComponent implements OnInit {
   surveyUserInput:SurveyInput[] = [];
   inputCollection:string = 'userInput';
   config = {leftTime: 120}
+  a:boolean = false;
+  b:boolean = false;
+  c:boolean = false;
+  d:boolean = false;
+  e:boolean = false;
+  f:boolean = false;
 
   constructor(private route: ActivatedRoute) { }
 
@@ -100,16 +106,18 @@ export class AppComponent implements OnInit {
   nextQuestionWithMultiple(a:boolean,b:boolean,c:boolean,d:boolean,e:boolean,f:boolean,type:string, qNumber: number){
     let optionsInSurvey = this.getQuestionOptions();
     let input:SurveyInput;
-    if(a) { this.options.push(optionsInSurvey[0]); }
-    if(b) { this.options.push(optionsInSurvey[1]); }
-    if(c) { this.options.push(optionsInSurvey[2]); }
-    if(d) { this.options.push(optionsInSurvey[3]); }
-    if(e) { this.options.push(optionsInSurvey[4]); }
-    if(f) { this.options.push(optionsInSurvey[5]); }
+    if(this.a) { this.options.push(optionsInSurvey[0]); }
+    if(this.b) { this.options.push(optionsInSurvey[1]); }
+    if(this.c) { this.options.push(optionsInSurvey[2]); }
+    if(this.d) { this.options.push(optionsInSurvey[3]); }
+    if(this.e) { this.options.push(optionsInSurvey[4]); }
+    if(this.f) { this.options.push(optionsInSurvey[5]); }
 
     this.options = this.options.filter(el => {
       return el != undefined;
     });
+
+    console.log(this.options);
 
     input = { type: type, options: this.options };
 
@@ -120,12 +128,13 @@ export class AppComponent implements OnInit {
 
     optionsInSurvey = [];
     this.options = [];
-    a = false;
-    b = false;
-    c = false;
-    d = false;
-    e = false;
-    f = false;
+
+    this.a = false;
+    this.b = false;
+    this.c = false;
+    this.d = false;
+    this.e = false;
+    this.f = false;
 
     if(qNumber == this.getQuestionLenght()-1){
       this.messageBtn = 'Terminar Encuesta';
