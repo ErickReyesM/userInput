@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import * as firebase from 'firebase';
 import { CountdownComponent } from 'ngx-countdown';
 
-export interface SurveyInput{
+export interface SurveyInput {
   type: string,
   value?: string,
   options?: any[]
@@ -18,101 +18,101 @@ export class AppComponent implements OnInit {
 
   @ViewChild(CountdownComponent) counter: CountdownComponent;
 
-  collection:string = 'surveys';
-  surveyId:string = '';
-  exist:boolean = false;
-  existMessage:string = '';
+  collection: string = 'surveys';
+  surveyId: string = '';
+  exist: boolean = false;
+  existMessage: string = '';
   questions: any[] = [];
-  questionCount:number = 0; 
-  myColor:string = 'primary';
-  messageBtn:string = 'Siguiente';
-  isLoadingResults:boolean;
-  options:Array<any> = [];
-  surveyInputObject:{surveyID:string, input:SurveyInput[], created:any };
-  surveyUserInput:SurveyInput[] = [];
-  inputCollection:string = 'userInput';
-  config = {leftTime: 120}
-  a:boolean = false;
-  b:boolean = false;
-  c:boolean = false;
-  d:boolean = false;
-  e:boolean = false;
-  f:boolean = false;
+  questionCount: number = 0;
+  myColor: string = 'primary';
+  messageBtn: string = 'Siguiente';
+  isLoadingResults: boolean;
+  options: Array<any> = [];
+  surveyInputObject: { surveyID: string, input: SurveyInput[], created: any };
+  surveyUserInput: SurveyInput[] = [];
+  inputCollection: string = 'userInput';
+  config = { leftTime: 120 }
+  a: boolean = false;
+  b: boolean = false;
+  c: boolean = false;
+  d: boolean = false;
+  e: boolean = false;
+  f: boolean = false;
 
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.isLoadingResults = true;
-    this.route.queryParams.subscribe( async (param) => {
+    this.route.queryParams.subscribe(async (param) => {
       this.getDocFromFireStore(this.collection, param['id']);
     });
   }
 
-  getDocFromFireStore(collection:string, docId:string){
+  getDocFromFireStore(collection: string, docId: string) {
     firebase.firestore().collection(collection).doc(docId).get()
-    .then((doc)=>{
-        if(doc.exists){
+      .then((doc) => {
+        if (doc.exists) {
           this.questions = doc.get('questions');
           this.exist = true;
           this.isLoadingResults = false;
           this.surveyId = docId;
           this.counter.pause();
-        }else{
+        } else {
           this.existMessage = "documento inexistente";
           this.isLoadingResults = false;
           this.counter.pause();
         }
       })
-    .catch((err) =>{
-      //TODO
-    });
+      .catch((err) => {
+        //TODO
+      });
   }
 
-  getQuestionLenght():number{
+  getQuestionLenght(): number {
     return this.questions.length;
   }
 
-  getQuestionText():string{
+  getQuestionText(): string {
     return this.questions[this.questionCount].questionTxt;
   }
 
-  getQuestionNumber():number{
+  getQuestionNumber(): number {
     return this.questions[this.questionCount].numberOrd;
   }
 
-  getQuestionOptions():string[]{
+  getQuestionOptions(): string[] {
     return this.questions[this.questionCount].options;
   }
 
-  getInputType():string{
+  getInputType(): string {
     return this.questions[this.questionCount].type;
   }
 
-  nextQuestion(value:string, type:string, qNumber: number){
-    let input:SurveyInput = { type: type, value: value, };
+  nextQuestion(value: string, type: string, qNumber: number) {
+    let input: SurveyInput = { type: type, value: value, };
     this.surveyUserInput.push(input);
     console.log(value);
-    this.questionCount +=1;
+    this.questionCount += 1;
     this.counter.restart();
 
-    if(qNumber == this.getQuestionLenght()-1){
+    if (qNumber == this.getQuestionLenght() - 1) {
       this.messageBtn = 'Terminar Encuesta';
       this.myColor = 'warn';
     }
-    if(qNumber == this.getQuestionLenght()){
+    if (qNumber == this.getQuestionLenght()) {
       this.onFinishSurvey();
     }
   }
 
-  nextQuestionWithMultiple(a:boolean,b:boolean,c:boolean,d:boolean,e:boolean,f:boolean,type:string, qNumber: number){
+  nextQuestionWithMultiple(a: boolean, b: boolean, c: boolean, d: boolean, e: boolean, f: boolean, type: string, qNumber: number) {
     let optionsInSurvey = this.getQuestionOptions();
-    let input:SurveyInput;
-    if(this.a) { this.options.push(optionsInSurvey[0]); }
-    if(this.b) { this.options.push(optionsInSurvey[1]); }
-    if(this.c) { this.options.push(optionsInSurvey[2]); }
-    if(this.d) { this.options.push(optionsInSurvey[3]); }
-    if(this.e) { this.options.push(optionsInSurvey[4]); }
-    if(this.f) { this.options.push(optionsInSurvey[5]); }
+    let input: SurveyInput;
+    if (this.a) { this.options.push(optionsInSurvey[0]); }
+    if (this.b) { this.options.push(optionsInSurvey[1]); }
+    if (this.c) { this.options.push(optionsInSurvey[2]); }
+    if (this.d) { this.options.push(optionsInSurvey[3]); }
+    if (this.e) { this.options.push(optionsInSurvey[4]); }
+    if (this.f) { this.options.push(optionsInSurvey[5]); }
 
     this.options = this.options.filter(el => {
       return el != undefined;
@@ -122,7 +122,7 @@ export class AppComponent implements OnInit {
 
     this.surveyUserInput.push(input);
 
-    this.questionCount +=1;
+    this.questionCount += 1;
     this.counter.restart();
 
     optionsInSurvey = [];
@@ -135,32 +135,32 @@ export class AppComponent implements OnInit {
     this.e = false;
     this.f = false;
 
-    if(qNumber == this.getQuestionLenght()-1){
+    if (qNumber == this.getQuestionLenght() - 1) {
       this.messageBtn = 'Terminar Encuesta';
       this.myColor = 'warn';
     }
-    if(qNumber == this.getQuestionLenght()){
+    if (qNumber == this.getQuestionLenght()) {
       this.onFinishSurvey();
     }
   }
 
-  onFinishSurvey(){
+  onFinishSurvey() {
     this.surveyInputObject = {
       surveyID: this.surveyId,
       input: this.surveyUserInput,
       created: firebase.firestore.FieldValue.serverTimestamp()
     }
     firebase.firestore().collection(this.inputCollection).add(this.surveyInputObject)
-    .then((doc)=>{
-      this.surveyUserInput = [];
-      window.location.replace('https://sondaggio-input-user.firebaseapp.com/?id='+this.surveyId);
-    })
-    .catch((err)=>{
-      //TODO
-    })
+      .then((doc) => {
+        this.surveyUserInput = [];
+        window.location.replace('https://sondaggio-input-user.firebaseapp.com/?id=' + this.surveyId);
+      })
+      .catch((err) => {
+        //TODO
+      })
   }
 
-  onFinished(){
+  onFinished() {
     window.location.reload();
   }
 

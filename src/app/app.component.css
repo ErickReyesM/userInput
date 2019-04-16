@@ -11,12 +11,10 @@
   }
 
   .radio-group {
-    display: inline-flex;
-    flex-direction: column;
-  }
-  
-  .radio-button {
-    margin: 5px;
+    width: 320px;
+    height: 75px;
+    font-size: 120%;
+    margin: 7px;
   }
 
   .question-orientation{
