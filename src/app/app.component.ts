@@ -91,6 +91,7 @@ export class AppComponent implements OnInit {
   nextQuestion(value:string, type:string, qNumber: number){
     let input:SurveyInput = { type: type, value: value, };
     this.surveyUserInput.push(input);
+    console.log(value);
     this.questionCount +=1;
     this.counter.restart();
 
@@ -116,8 +117,6 @@ export class AppComponent implements OnInit {
     this.options = this.options.filter(el => {
       return el != undefined;
     });
-
-    console.log(this.options);
 
     input = { type: type, options: this.options };
 

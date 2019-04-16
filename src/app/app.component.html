@@ -14,13 +14,42 @@
     </div>
     <!--Radio Select-->
     <div *ngIf="getQuestionOptions().length > 0 && getInputType() === 'Elección'"  style="font-size: 150%">
-        <mat-radio-group class="radio-group" 
-        [(ngModel)]="optionSelected">
+        <mat-radio-group class="radio-group">
             <mat-radio-button class="radio-button" 
-            *ngFor="let option of getQuestionOptions()" 
-            [value]="option"
-            (change)="nextQuestion(option, getInputType(), getQuestionNumber())">
-              {{option}}
+            *ngIf="0 < getQuestionOptions().length" 
+            [value]="getQuestionOptions()[0]"
+            (change)="nextQuestion(getQuestionOptions()[0], getInputType(), getQuestionNumber())">
+              {{getQuestionOptions()[0]}}
+            </mat-radio-button>
+            <mat-radio-button class="radio-button" 
+            *ngIf="1 < getQuestionOptions().length" 
+            [value]="getQuestionOptions()[1]"
+            (change)="nextQuestion(getQuestionOptions()[1], getInputType(), getQuestionNumber())">
+              {{getQuestionOptions()[1]}}
+            </mat-radio-button>
+            <mat-radio-button class="radio-button" 
+            *ngIf="2 < getQuestionOptions().length" 
+            [value]="getQuestionOptions()[2]"
+            (change)="nextQuestion(getQuestionOptions()[2], getInputType(), getQuestionNumber())">
+              {{getQuestionOptions()[2]}}
+            </mat-radio-button>
+            <mat-radio-button class="radio-button" 
+            *ngIf="3 < getQuestionOptions().length" 
+            [value]="getQuestionOptions()[3]"
+            (change)="nextQuestion(getQuestionOptions()[3], getInputType(), getQuestionNumber())">
+              {{getQuestionOptions()[3]}}
+            </mat-radio-button>
+            <mat-radio-button class="radio-button" 
+            *ngIf="4 < getQuestionOptions().length" 
+            [value]="getQuestionOptions()[4]"
+            (change)="nextQuestion(getQuestionOptions()[4], getInputType(), getQuestionNumber())">
+              {{getQuestionOptions()[4]}}
+            </mat-radio-button>
+            <mat-radio-button class="radio-button" 
+            *ngIf="5 < getQuestionOptions().length" 
+            [value]="getQuestionOptions()[5]"
+            (change)="nextQuestion(getQuestionOptions()[5], getInputType(), getQuestionNumber()); optionSelected = ''">
+              {{getQuestionOptions()[5]}}
             </mat-radio-button>
           </mat-radio-group>   
     </div>
