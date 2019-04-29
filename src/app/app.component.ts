@@ -38,6 +38,7 @@ export class AppComponent implements OnInit {
   d: boolean = false;
   e: boolean = false;
   f: boolean = false;
+  isFinished: boolean = false;
 
   constructor(private route: ActivatedRoute) { }
 
@@ -91,7 +92,6 @@ export class AppComponent implements OnInit {
   nextQuestion(value: string, type: string, qNumber: number) {
     let input: SurveyInput = { type: type, value: value, };
     this.surveyUserInput.push(input);
-    console.log(value);
     this.questionCount += 1;
     this.counter.restart();
 
@@ -145,6 +145,8 @@ export class AppComponent implements OnInit {
   }
 
   onFinishSurvey() {
+    this.exist = false;
+    this.isFinished = true;
     this.surveyInputObject = {
       surveyID: this.surveyId,
       input: this.surveyUserInput,
@@ -153,6 +155,7 @@ export class AppComponent implements OnInit {
     firebase.firestore().collection(this.inputCollection).add(this.surveyInputObject)
       .then((doc) => {
         this.surveyUserInput = [];
+        this.sleep(2000);
         window.location.replace('https://sondaggio-input-user.firebaseapp.com/?id=' + this.surveyId);
       })
       .catch((err) => {
@@ -162,6 +165,15 @@ export class AppComponent implements OnInit {
 
   onFinished() {
     window.location.reload();
+  }
+
+  sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+      if ((new Date().getTime() - start) > milliseconds) {
+        break;
+      }
+    }
   }
 
 }

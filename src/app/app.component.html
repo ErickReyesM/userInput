@@ -1,83 +1,83 @@
 <!--Spining loader-->
 <div class="loading-shade" *ngIf="isLoadingResults">
-    <mat-spinner mode="indeterminate"></mat-spinner>
+  <mat-spinner mode="indeterminate"></mat-spinner>
 </div>
 
+<!--Thanks Message-->
+<span *ngIf="isFinished">
+  <p class="thanks-message">Encuesta Terminada</p>
+  <p class="thanks-message">¡¡Gracias!!</p>
+</span>
+
 <div style="text-align: right">
-    <countdown [config]="config" (finished)="onFinished()">$!m!:$!s!</countdown>
+  <countdown [config]="config" (finished)="onFinished()">$!m!:$!s!</countdown>
 </div>
 
 <span *ngIf="exist" class="question-orientation">
   <div>
     <!--Question Number & Text-->
-      <h1>{{ getQuestionNumber() }}.- &nbsp; {{ getQuestionText() }}</h1>
-    </div>
-    <!--Radio Select-->
-    <div *ngIf="getQuestionOptions().length > 0 && getInputType() === 'Elección'"  style="font-size: 150%">
-      <button mat-raised-button *ngIf="0 < getQuestionOptions().length" class="radio-group" 
+    <h1>{{ getQuestionNumber() }}.- &nbsp; {{ getQuestionText() }}</h1>
+  </div>
+  <!--Radio Select-->
+  <div *ngIf="getQuestionOptions().length > 0 && getInputType() === 'Elección'" class="cehck-box-group">
+    <button mat-raised-button *ngIf="0 < getQuestionOptions().length"  style="margin-top:15px" class="next-button"
       (click)="nextQuestion(getQuestionOptions()[0], getInputType(), getQuestionNumber())">{{getQuestionOptions()[0]}}</button>
-      <br>
-      <button mat-raised-button *ngIf="1 < getQuestionOptions().length" class="radio-group" 
+    
+    <button mat-raised-button *ngIf="1 < getQuestionOptions().length" style="margin-top:15px" class="next-button"
       (click)="nextQuestion(getQuestionOptions()[1], getInputType(), getQuestionNumber())">{{getQuestionOptions()[1]}}</button>
-      <br>
-      <button mat-raised-button *ngIf="2 < getQuestionOptions().length" class="radio-group" 
+    
+    <button mat-raised-button *ngIf="2 < getQuestionOptions().length" style="margin-top:15px" class="next-button"
       (click)="nextQuestion(getQuestionOptions()[2], getInputType(), getQuestionNumber())">{{getQuestionOptions()[2]}}</button>
-      <br>
-      <button mat-raised-button *ngIf="3 < getQuestionOptions().length" class="radio-group" 
+    
+    <button mat-raised-button *ngIf="3 < getQuestionOptions().length" style="margin-top:15px" class="next-button"
       (click)="nextQuestion(getQuestionOptions()[3], getInputType(), getQuestionNumber())">{{getQuestionOptions()[3]}}</button>
-      <br>
-      <button mat-raised-button *ngIf="4 < getQuestionOptions().length" class="radio-group" 
+    
+    <button mat-raised-button *ngIf="4 < getQuestionOptions().length" style="margin-top:15px" class="next-button"
       (click)="nextQuestion(getQuestionOptions()[4], getInputType(), getQuestionNumber())">{{getQuestionOptions()[4]}}</button>
-      <br>
-      <button mat-raised-button *ngIf="5 < getQuestionOptions().length" class="radio-group" 
+    
+    <button mat-raised-button *ngIf="5 < getQuestionOptions().length" style="margin-top:15px" class="next-button"
       (click)="nextQuestion(getQuestionOptions()[5], getInputType(), getQuestionNumber())">{{getQuestionOptions()[5]}}</button>
-    </div>
-    <!--Checkbox for Mutiple Option-->
-    <div *ngIf="getQuestionOptions().length > 0 && getInputType() === 'Opción Multitple'" 
-      style="font-size: 150%">
-          <mat-checkbox *ngIf="getQuestionOptions()[0]" 
-          [(ngModel)]="a">{{getQuestionOptions()[0]}}</mat-checkbox><br>
-          <mat-checkbox *ngIf="getQuestionOptions()[1]"
-           [(ngModel)]="b">{{getQuestionOptions()[1]}}</mat-checkbox><br>
-          <mat-checkbox *ngIf="getQuestionOptions()[2]"
-           [(ngModel)]="c">{{getQuestionOptions()[2]}}</mat-checkbox><br>
-          <mat-checkbox *ngIf="getQuestionOptions()[3]"
-           [(ngModel)]="d">{{getQuestionOptions()[3]}}</mat-checkbox><br>
-          <mat-checkbox *ngIf="getQuestionOptions()[4]"
-           [(ngModel)]="e">{{getQuestionOptions()[4]}}</mat-checkbox><br>
-          <mat-checkbox *ngIf="getQuestionOptions()[5]"
-           [(ngModel)]="f">{{getQuestionOptions()[5]}}</mat-checkbox><br>
-           <div class="action-button" *ngIf="questionCount <= getQuestionLenght() - 1">
-              <button mat-stroked-button style="font-size: 85%"
-              (click)="nextQuestionWithMultiple(a,b,c,d,e,f, getInputType(), getQuestionNumber())"
-              [color]="myColor">{{messageBtn}}</button>
-          </div> 
-    </div>
-    <!--Satisfaction Input-->
-    <div *ngIf="getInputType() === 'Satisfacción'">
-      <a (click)="nextQuestion('Pesimo',getInputType(), getQuestionNumber())" class="button-satisfaction">
-        <img src="assets/satisfaction_icons/worse.png" alt="Muy Malo" class="responsive">
-      </a>
-      <a (click)="nextQuestion('Malo',getInputType(), getQuestionNumber())" class="button-satisfaction">
-        <img src="assets/satisfaction_icons/bad.png" alt="Malo" class="responsive">
-      </a>
-      <a (click)="nextQuestion('Bueno',getInputType(), getQuestionNumber())" class="button-satisfaction">
-        <img src="assets/satisfaction_icons/ok.png" alt="Bueno" class="responsive">
-      </a>
-      <a (click)="nextQuestion('Excelente',getInputType(), getQuestionNumber())" class="button-satisfaction">
-        <img src="assets/satisfaction_icons/great.png" alt="Excelente" class="responsive">
-      </a>
-    </div>
-    <!--Open Text Area-->
-    <div *ngIf="getInputType() === 'Abierta'">
-        <mat-form-field class="open-text-area">
-            <textarea matInput #textArea placeholder="Deja un comentario"></textarea>
-          </mat-form-field>
-          <div class="action-button" *ngIf="questionCount <= getQuestionLenght() - 1">
-              <button mat-stroked-button style="font-size: 85%"
-              (click)="nextQuestion(textArea.value, getInputType(), getQuestionNumber())"
-              [color]="myColor">{{messageBtn}}</button>
-          </div>
-    </div>
+  </div>
+  <!--Checkbox for Mutiple Option-->
+  <div *ngIf="getQuestionOptions().length > 0 && getInputType() === 'Opción Multitple'" class="cehck-box-group">
+    <mat-checkbox *ngIf="getQuestionOptions()[0]" [(ngModel)]="a">{{getQuestionOptions()[0]}}</mat-checkbox>
+    <mat-checkbox *ngIf="getQuestionOptions()[1]" [(ngModel)]="b">{{getQuestionOptions()[1]}}</mat-checkbox>
+    <mat-checkbox *ngIf="getQuestionOptions()[2]" [(ngModel)]="c">{{getQuestionOptions()[2]}}</mat-checkbox>
+    <mat-checkbox *ngIf="getQuestionOptions()[3]" [(ngModel)]="d">{{getQuestionOptions()[3]}}</mat-checkbox>
+    <mat-checkbox *ngIf="getQuestionOptions()[4]" [(ngModel)]="e">{{getQuestionOptions()[4]}}</mat-checkbox>
+    <mat-checkbox *ngIf="getQuestionOptions()[5]" [(ngModel)]="f">{{getQuestionOptions()[5]}}</mat-checkbox>
+
+    <button mat-stroked-button *ngIf="questionCount <= getQuestionLenght() - 1" class="next-button"
+      (click)="nextQuestionWithMultiple(a,b,c,d,e,f, getInputType(), getQuestionNumber())" [color]="myColor">
+      {{messageBtn}}
+    </button>
+  </div>
+  <!--Satisfaction Input-->
+  <div *ngIf="getInputType() === 'Satisfacción'">
+    <a (click)="nextQuestion('Pesimo',getInputType(), getQuestionNumber())" class="button-satisfaction">
+      <img src="assets/satisfaction_icons/worse.png" alt="Muy Malo" class="responsive">
+    </a>
+    <a (click)="nextQuestion('Malo',getInputType(), getQuestionNumber())" class="button-satisfaction">
+      <img src="assets/satisfaction_icons/bad.png" alt="Malo" class="responsive">
+    </a>
+    <a (click)="nextQuestion('Bueno',getInputType(), getQuestionNumber())" class="button-satisfaction">
+      <img src="assets/satisfaction_icons/ok.png" alt="Bueno" class="responsive">
+    </a>
+    <a (click)="nextQuestion('Excelente',getInputType(), getQuestionNumber())" class="button-satisfaction">
+      <img src="assets/satisfaction_icons/great.png" alt="Excelente" class="responsive">
+    </a>
+  </div>
+  <!--Open Text Area-->
+  <div *ngIf="getInputType() === 'Abierta'">
+    <mat-form-field class="open-text-area">
+      <textarea matInput #textArea placeholder="Deja un comentario"></textarea>
+    </mat-form-field>
+    <div class="action-button" ></div>
+      <button mat-stroked-button *ngIf="questionCount <= getQuestionLenght() - 1"
+      (click)="nextQuestion(textArea.value, getInputType(), getQuestionNumber())"
+        [color]="myColor"
+        class="next-button">{{messageBtn}}
+      </button>
+  </div>
 </span>
 <h1 *ngIf="!exist">{{existMessage}}</h1>
